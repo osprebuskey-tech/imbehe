@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light is the default (a white layout). Dark swaps the neutral scale and the surfaces; the four palette colours stay. rgb triplets so
+   Tailwind's opacity utilities (bg-ink-900/10) keep working. */
+:root {
+  color-scheme: light;
+  --ink-50: 243 247 247; --ink-100: 227 236 237; --ink-200: 199 216 218; --ink-300: 159 187 190; --ink-400: 111 149 153;
+  --ink-500: 75 112 117; --ink-600: 54 85 88; --ink-700: 40 66 70; --ink-800: 29 50 54; --ink-900: 20 38 42; --ink-950: 12 26 29;
+  --page: 255 255 255; --surface: 255 255 255; --paper: 243 247 245;
+}
+.dark {
+  color-scheme: dark;
+  --ink-50: 15 27 29; --ink-100: 31 49 53; --ink-200: 45 66 71; --ink-300: 70 96 101; --ink-400: 105 137 142;
+  --ink-500: 138 168 171; --ink-600: 169 193 195; --ink-700: 196 214 215; --ink-800: 219 231 232; --ink-900: 238 244 244; --ink-950: 248 251 251;
+  --page: 12 26 29; --surface: 20 38 42; --paper: 15 33 36;
+}
+
+@layer base {
+  body { @apply text-ink-900 antialiased; background-color: rgb(var(--page)); }
+  h1, h2, h3, h4 { @apply font-display tracking-tight text-ink-950; }
+  :focus-visible { @apply outline-none ring-2 ring-teal-700 ring-offset-2; }
+  .on-tint :focus-visible { @apply ring-ink-900 ring-offset-teal-400; }
+  .on-rose :focus-visible { @apply ring-white ring-offset-rose-600; }
+}
+
+@layer components {
+  .input {
+    @apply block w-full rounded-lg border border-ink-200 px-3 py-2.5 text-base text-ink-900
+           placeholder:text-ink-300 focus:border-ink-500 disabled:bg-paper disabled:text-ink-400;
+  }
+  .input { background-color: rgb(var(--surface)); }
+  .input[aria-invalid='true'] { @apply border-rose-600; }
+  .panel { @apply rounded-xl border border-ink-100; background-color: rgb(var(--surface)); }
+  /* The four palette colours as a thin rule at the top of the headers. */
+  .brand-bar { @apply h-1 w-full bg-brand-gradient; }
+  /* A word picked out in butter yellow on the teal hero, with dark text so it stays readable. */
+  .mark-accent { @apply rounded-md bg-sun-300 px-1.5; color: #14262a; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .container-page { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+}
+
+/* Dark mode: the neutral scale flips through the variables above. What follows is only the things that cannot flip: white surfaces,
+   the pastel tint backgrounds with dark text, and the coloured text that was meant for a white page. */
+.dark .bg-white { background-color: rgb(var(--surface)); }
+.dark .bg-white\/90 { background-color: rgb(var(--surface) / 0.9); }
+.dark .bg-white\/95 { background-color: rgb(var(--surface) / 0.95); }
+.dark .bg-ink-900, .dark .\!bg-ink-900 { background-color: #2b4f56 !important; } /* dark pills and cards that carry white text */
+.dark .bg-ink-950\/60, .dark .bg-ink-950\/70 { background-color: rgb(0 0 0 / 0.65); }
+.dark .bg-sun-200, .dark .bg-sun-300, .dark .bg-sun-400 { color: #14262a; } /* butter stays butter, with dark text */
+.dark .bg-teal-50, .dark .bg-teal-50\/50 { background-color: rgb(135 182 188 / 0.12); }
+.dark .bg-rose-50, .dark .bg-rose-50\/40 { background-color: rgb(179 86 86 / 0.16); }
+.dark .bg-sun-100 { background-color: rgb(246 240 159 / 0.1); }
+.dark .bg-amber-50 { background-color: rgb(245 158 11 / 0.12); }
+.dark .bg-emerald-50 { background-color: rgb(16 185 129 / 0.12); }
+.dark .text-teal-600, .dark .text-teal-700, .dark .text-teal-800 { color: #a3c8cd; }
+.dark .text-rose-600, .dark .text-rose-700, .dark .text-rose-800, .dark .text-rose-900 { color: #e7a3a3; }
+.dark .text-emerald-800, .dark .text-emerald-900 { color: #6ee7b7; }
+.dark .text-amber-800, .dark .text-amber-900, .dark .text-amber-950 { color: #fcd34d; }
+.dark .border-teal-200, .dark .border-teal-300 { border-color: rgb(135 182 188 / 0.4); }
+.dark .border-rose-200, .dark .border-rose-300 { border-color: rgb(179 86 86 / 0.5); }
+.dark img { opacity: 0.92; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
